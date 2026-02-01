@@ -1,0 +1,54 @@
+version: '3.8'
+
+# Enable BuildKit for cache mounts
+x-build-config: &build-config
+  DOCKER_BUILDKIT: 1
+  COMPOSE_DOCKER_CLI_BUILD: 1
+
+services:
+  webexdx-auth-service:
+    build:
+      context: ../webexdx-auth-service
+      dockerfile: Dockerfile
+    container_name: auth-service
+    ports:
+      - "3000:3000"
+  webexdx-taskify-service:
+    build:
+      context: ../webexdx-taskify-service
+      dockerfile: Dockerfile
+    container_name: taskify-service
+    ports:
+      - "3002:3002"
+  webexdx-configforge-service:
+    build:
+      context: ../webexdx-configforge-service
+      dockerfile: Dockerfile
+    container_name: configforge-service
+    ports:
+      - "3001:3001"
+  webexdx-auth-mfe:
+    build:
+      context: ../webexdx-auth-mfe
+      dockerfile: Dockerfile
+    container_name: auth-mfe
+    ports:
+      - "4000:80"
+  webexdx-taskify-mfe:
+    build:
+      context: ../webexdx-taskify-mfe
+      dockerfile: Dockerfile
+      args:
+        ENVIRONMENT: dev
+    container_name: taskify-mfe
+    ports:
+      - "4001:80"
+  webexdx-configforge-mfe:
+    build:
+      context: ../webexdx-configforge-mfe
+      dockerfile: Dockerfile
+      args:
+        ENVIRONMENT: dev
+    container_name: configforge-mfe
+    ports:
+      - "4002:80"
