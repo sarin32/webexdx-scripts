@@ -6,6 +6,16 @@ x-build-config: &build-config
   COMPOSE_DOCKER_CLI_BUILD: 1
 
 services:
+  webexdx-mongodb:
+    image: mongo:latest
+    container_name: webexdx-mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+    volumes:
+      - webexdx-mongo-data:/data/db
   webexdx-auth-service:
     build:
       context: ../webexdx-auth-service
@@ -52,3 +62,6 @@ services:
     container_name: configforge-mfe
     ports:
       - "4002:80"
+
+volumes:
+  webexdx-mongo-data:
